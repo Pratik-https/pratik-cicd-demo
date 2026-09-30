@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        PYTHON = 'C:\\Users\\DELL\\AppData\\Local\\Programs\\Python\\Python313\\python.exe'
+    }
+
     stages {
 
         stage('Checkout') {
@@ -11,13 +15,13 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'python -m pip install -r requirements.txt'
+                bat '"%PYTHON%" -m pip install -r requirements.txt'
             }
         }
 
         stage('Run Tests') {
             steps {
-                bat 'python -m pytest -q'
+                bat '"%PYTHON%" -m pytest -q'
             }
         }
 
@@ -26,7 +30,7 @@ pipeline {
                 bat 'if not exist deployment mkdir deployment'
                 bat 'copy /Y app.py deployment\\app.py'
                 bat 'copy /Y requirements.txt deployment\\requirements.txt'
-                bat 'echo Deployment completed for Pratik Haladkar'
+                bat 'echo Deployment files prepared for Pratik Haladkar'
             }
         }
     }
